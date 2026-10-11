@@ -1,13 +1,13 @@
----
-title: Computer Simulations and Statistics
----
-
 ![[Pasted image 20260706154040.png]]
 
 Why "Computer Simulations and Statistics" (CSS) ?
 * [[_motivation_|Read about motivations for CSS.]]
 
+![[_worksheets_/worksheet-1-solutions.html]]
+
 These class notes (2026/2027), with grateful acknowledgments to [Prof. Isabel Pereira](https://www.ua.pt/pt/p/10308689), are based on her original slides and course materials. All slides are available in the folder `_slides_`. 
+
+A note about [One Skill to Stay Relevant in the Age of AI (Andrew Ng)](https://www.youtube.com/watch?v=HTlf3KNNez0).
 
 Here is a list of the sections we are going to study.
 # Chapter 1

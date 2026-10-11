@@ -34,6 +34,6 @@ Exercise
 
 ![[Pasted image 20260617142501.png]]
 
-[[Further Reading]]:  
+[[Further reading]]:  
 * [[LLM C2 numeric methods vs Monte Carlo methods|When to use standard numerical approximation rules?]]
 * [[motivation|Other motivations]]

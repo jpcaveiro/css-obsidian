@@ -1,30 +1,27 @@
 # inverse transform method for exponential variables
 
-Concepts and Keywords:
+Keywords:
 * [[univariate continuous variables]]
 
-## Summary
-
-[[algorithm]] Get random values for distribution $Exp(\lambda)$:
-
-2. Get random values $u_i$ from $U(0;1)$.
-3. Calculate $x_i = -\frac{1}{\lambda} \ln u_i$.
-
-* $x_i$ values are random values from $Exp(\lambda)$.
- 
- Exercise: 
- 1. [[write pseudo code]] again.
-## Proof
+To generate for any exponential distribution:
 
 ![[Pasted image 20260622164358.png]]
 
-Exercise:
-1. [[explain]] deductions.
+[[Memory is Something We Do]].
 
-## Numerical example
-[[R code]]
+Exercise 1. [[Show]] that $U \sim U(0;1)$ then $1-U \sim U(0;1)$ and [[explain]] why this may be useful.
+
+
+Get random values for distribution $Exp(\lambda)$ with the following [[algorithm]]:
+
+1. Get random values $u_i$ from $U(0;1)$.
+2. Calculate $x_i = -\frac{1}{\lambda} \ln u_i$.
+3. $x_i$ values are random values from $Exp(\lambda)$.
+
+Consider the following code and output of [[R code]]:
+
 ![[Pasted image 20260622164750.png]]
 
-Exercises:
-1. [[explain]] code in detail.
-2. [[run R code]] like the example 
+ [[Memory is Something We Do]].
+
+ Exercise 1. [[write R code and run it]] (previous code).

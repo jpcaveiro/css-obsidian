@@ -6,7 +6,7 @@ Comments:
 
 1. A target distribution $f$ is "target" because we want to sample from it, from $f$.
 2. The name "kernel" means "transition kernel" and is a probability distribution to do "jumps": a distribution that generate a jump from $X_t$ to $X_{t+1}$.
-	1. In Markov chains, a **transition kernel** (often denoted as $K$) represents the **conditional distribution** of the next state in a sequence given its current state.
+	1. In Markov chain, a **transition kernel** (often denoted as $K$) represents the **conditional distribution** of the next state in a sequence given its current state.
 	2. More in [[LLM C4 what is a kernel]].
 3. A transition kernel must obey the property of [[mc_stationary| stationary probability distribution]]: 
 	* A distribution $f$ is a **stationary probability distribution** for [[mc_kernel|kernel K]] if $X_t \sim f \implies X_{t+1} \sim f$.
@@ -87,7 +87,7 @@ As an example, consider image from [Metropolis–Hastings algorithm - wikipedia]
 
 [[to do]] melhorar a imagem ao cenário deste texto
 
-[[Further Reading]]
+[[Further reading]]
 * [[LLM C4 K and q relation]]
 * [[LLM C4 why q ratio]]
 * [[LLM C4 what is alpha]]

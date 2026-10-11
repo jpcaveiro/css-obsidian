@@ -3,7 +3,6 @@
 Keywords: 
 * [[univariate discrete variables]]
 
-## Summary
 
 ![[Pasted image 20260622170206.png]]
 
@@ -11,36 +10,49 @@ Keywords:
 The [[algorithm]] to generate random variables is:
 ![[Pasted image 20260622170226.png]]
 
-Exercises:
-1. [[what]] are the $x_i$ values from image distribution?
-2. [[give one reason]] of why $F_X(x_{i-1}) < u \le F_X(x_i)$ and not  $F_X(x_{i-1}) \le u < F_X(x_i)$.
-3. [[plot]] $x_i$ for $u \in [0,1]$ for the example.
+[[Memory is Something We Do]]
+
+Exercise 1. [[what]] are the $x_i$ values from image distribution?
+
+Exercise 2. [[give one reason]] of why $F_X(x_{i-1}) < u \le F_X(x_i)$ and not  $F_X(x_{i-1}) \le u < F_X(x_i)$.
+
+Exercise 3. [[hand plot]] $x_i$ for $u \in [0,1]$ for the example.
 
 
 
-## Concepts
+[[definition]] Define the generalized inverse $F^{-1}(u)=\inf\{x: F(x)\ge u\}$ for a discrete random variable with support $\{x_1<x_2<\cdots\}$.
+
+Some art:
+![[Pasted image 20260930103326.png]]
+
+
+
+To generate from [[univariate discrete variables]] consider:
+
 ![[Pasted image 20260622170652.png]]
 
-* $u$ is generated from $U(0;1)$;
-* recall that $u$ **can be seen as a probability** $p$.  When $U \sim Unif(0;1)$, $F_U(u)=u$ shows that $u$ is also a probability.
+[[Memory is Something We Do]].
 
+Exercise 1. [[Show]] that $F^{-1}(U)\sim F$ .
 
-![[itm_udv_img1.pdf]]
-
-Exercise:
-1. [[explain]] the following slide
+Exercise 2. [[explain]] the following slide:
 
 ![[Pasted image 20260622172417.png]]
-(slide paper nr 17)
 
-## Generalization
+
+A generalization of the algorithm is:
 
 ![[Pasted image 20260622172547.png]]
 
-Exercise:
-1. [[write R code and run it]] to implement the above slide.
+[[Memory is Something We Do]].
 
-Continuation:
-* [[itm udv binomial|special case: binomial]]
-* [[itm udv poisson|special case: Poisson]]
+Exercise 1. [[write R code and run it]] to implement the the generalized invers $F^{-1}(u)$ based on the above slide and for any discrete distribution function:
+```r
+generalized_inverse <- function(u, x_vector, p_vector) {
 
+return x
+}
+```
+
+
+[[Further reading]]: [[LLM C1 discrete inverse]]

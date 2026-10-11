@@ -16,9 +16,9 @@ Rejection method is an efficient method if the functions f and g are similar (sa
 Note:
 * The  $k g(x)$ is called "envelop" because it is above $f(x)$, the target distribution.
 * Or, the graph of $kg(x)$ lies above the graph of $f(x)$ (pointwise).
+![[Pasted image 20260926062215.png]]
 
-Exercise:
-1. Find a value for $k$ such that $g$ is the distribution $U(0;1)$ and $f(x) = 6x(1-x), \quad 0 \le x \le 1$.
+[[Memory is Something We Do]]. Find a value for $k$ such that $g$ is the distribution $U(0;1)$ and $f(x) = 6x(1-x), \quad 0 \le x \le 1$.
 > [!example]- a solution
 > We need a constant such that:
 > $$f(x) \le M g(x)$$
@@ -36,26 +36,29 @@ Exercise:
 An [[algorithm]] could be:
 ![[Pasted image 20260623145929.png]]
 
-Exercises:
-1. Notice that $U$ is not from $U(0;1)$ but from $U(0; kg(x))$. Change the algorithm (a new [[write pseudo code|pseudo code]]) to use $U(0;1)$.
+[[Memory is Something We Do]]. Notice that $U$ is not from $U(0;1)$ but from $U(0; kg(x))$. Change the algorithm (a new [[write pseudo code|pseudo code]]) to use $U(0;1)$.
 > [!example]- a solution
 > ![[Pasted image 20260903084335.png]]
 
 
 ![[Pasted image 20260903084356.png]]
 
-Exercises:
-1. Check 16/9 is a possible value for $k$ , using rejection method, to generate random values from [[beta distribution|beta(2,3)]], i.e., $f(x)=12x(1-x)^2$ for $0 \le x \le 1$, 
-2. [[write R code and run it]] to generate images like
+The **next chapter** will explore notion below related to the "acceptance probability" being $1/k$ in rejection method: 
+* when generating a number $u$ from $U(0; kg(x))$, and accepting the outcome if $u\le f(x)$, then the proportion of acceptance is $\frac{f(x)}{kg(x)}$. The expectation of this proportion, when sampling from $g$, is
+  $$\int_a^b \frac{f(x)}{kg(x)} g(x) dx=\frac{1}{k}$$
+[[Memory is Something We Do]].
+Exercise 1. Check 16/9 is a possible value for $k$ , using rejection method, to generate random values from [[beta distribution|beta(2,3)]], i.e., $f(x)=12x(1-x)^2$ for $0 \le x \le 1$, 
+Exercise 2. [[write R code and run it]] to generate images like
 ![[Pasted image 20260903091955.png]] and ![[Pasted image 20260903092006.png]]
 
 > [!example]- a solution
 > [[C1 rejection method R code 01]]
 >
 
-3. Generate PRN's from the [[Epanechnikov kernel density]] given by
+Exercise 3. Generate PRN's from the [[Epanechnikov kernel density]] given by
 $$f(x) = \frac{3}{4}(1 - x^2), \quad |x| \leq 1$$
 Consider an auxiliary model for $g$ given by $U(-1, 1)$ distribution and show $k = 3/2$ is enough. Create similar graphics.
+
 
 # Rejection method for truncated distribution
 

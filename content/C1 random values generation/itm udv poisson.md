@@ -1,16 +1,29 @@
 # inverse transform method for Poisson
 
+Keywords:
+
+* [[univariate discrete variables]]
+* [[Poisson distribution]]
+
+
 Consider the Poisson distribution
 ![[Poisson distribution]]
 
-Exercises:
-1. [[deduce]] a recursive relation for $p_{i+1} =P(X=i+1)$ as a function of $p_i=P(X=i)$.
+As it can be seen in the general case of [[itm udv|Inverse transform method for univariate discrete variables]], the importance of having all distinct probabilities $p_i=P(X=i)$ is necessary to calculate $F^{-1}(u)$.
+
+However, sometimes it is important to speed up algorithms: this one depends on $i$ factorial.  Calculating $i!$ could be a computational slow procedure.  To overcome the possible slow speed one can deduce a recursive relation for $p_{i+1} =P(X=i+1)$ as a function of $p_i=P(X=i)$.
+
+The relation $p_{i+1} = \frac{\lambda}{i+1} p_i$ can be written for the Poisson mass probability function. This is explored in the following exercises:
+
+[[Memory is Something We Do]]
+
+Exercise 1. Considering the Poisson probability mass function, [[deduce]] a recursive relation for $p_{i+1} =P(X=i+1)$ as a function of $p_i=P(X=i)$.
 > [!example]- solution
 > * use pmf of Poisson
 > * $p_0 = e^{-\lambda}$
 > * $p_{i+1} = \frac{\lambda}{i+1} p_i$ for $i=0,\ldots$
 
-2. use [[itm udv|the discrete case]] to [[write pseudo code]] for a random generator for a Poisson variable.
+Exercise 2. Use [[itm udv|the discrete case]] to [[write pseudo code]] for a random generator for a Poisson variable.
 > [!example]- solution
 > general scheme
 > ```
@@ -34,6 +47,6 @@ Exercises:
 > ```
 > ![[Pasted image 20260623011618.png]]
 
-3. [[run R code]] of the example and check results
+Exercise 3. [[run R code]] of the example and check results.
 > [!example]- proposal
 > ![[Pasted image 20260623011724.png]]

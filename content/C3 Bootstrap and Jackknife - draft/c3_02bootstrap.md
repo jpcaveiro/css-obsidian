@@ -1,7 +1,6 @@
 
-[[Further Reading]]: 
+Consider reading first a summary:
 * [[LLM C3 bootstrap method]]
-
 
 
 ![[Pasted image 20260720104851.png]]
@@ -14,7 +13,7 @@
 
 ![[Pasted image 20260720105529.png]]
 
-[[Further Reading]]: image explanation [[LLM C3 F Fn Xstar]]. ([[to do]]: explicar a setinha aqui)
+[[Further reading]]: image explanation [[LLM C3 F Fn Xstar]]. ([[to do]]: explicar a setinha aqui)
 
 ![[Pasted image 20260720110356.png]]
 

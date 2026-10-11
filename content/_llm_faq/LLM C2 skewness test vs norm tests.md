@@ -1,11 +1,12 @@
 
-* https://www.perplexity.ai/computer/tasks/c1357f96-e473-47dc-90d5-957309ca04ca
-
 Note about word "Omnibus":
-* "Omnibus" = a single statistic that aggregates evidence against the null across **all possible** alternatives. A skewness-only test is the opposite — a **directional** or **component** test — which is more powerful for _its_ specific alternative but blind to everything else.
+* "Omnibus" = a single statistic that aggregates evidence against the null across **all possible** alternatives. 
+* A skewness-only test is the opposite — a **directional** or **component** test — which is more powerful for _its_ specific alternative but blind to everything else.
 
 
-Normality tests based on **asymmetry** (skewness) — such as D'Agostino's skewness test, Geary's test, or the skewness component of the Jarque-Bera procedure — assess departure from normality by checking whether the third standardized moment $\gamma_1 = E[(X-\mu)^3]/\sigma^3$ differs from zero (the normal value). Here are the main trade-offs.
+Normality tests based on **asymmetry** (skewness) — such as D'Agostino's skewness test, Geary's test, or the skewness component of the Jarque-Bera procedure — assess departure from normality by checking whether the third standardized moment $\gamma_1 = E[(X-\mu)^3]/\sigma^3$ differs from zero (the normal value). 
+
+Here are the main trade-offs.
 
 ## Pros
 
@@ -25,3 +26,7 @@ Normality tests based on **asymmetry** (skewness) — such as D'Agostino's skewn
 ## Bottom line
 
 A skewness-based normality test is a **focused diagnostic**, not a comprehensive normality check. It is most useful when you specifically care about asymmetry or want to decompose non-normality into interpretable components. For a general "is this sample normal?" decision, an omnibus test (Shapiro-Wilk or Anderson-Darling) is usually preferable, often supplemented by a Q-Q plot rather than relying on a single moment.
+
+
+Reference:
+* https://www.perplexity.ai/computer/tasks/c1357f96-e473-47dc-90d5-957309ca04ca

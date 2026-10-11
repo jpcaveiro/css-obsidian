@@ -1,0 +1,1019 @@
+---
+title: "Computational Statistics and Simulation — Worksheet 1"
+subtitle: "Generation of Pseudo-Random Numbers — Solutions"
+author: "João Pedro Cruz"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: flatly
+    code_folding: show
+  pdf_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.width = 7, fig.height = 4.2
+)
+set.seed(20252026)   # reproducibility throughout the worksheet
+```
+
+This document solves the eight exercises of Worksheet 1. Only **base R** is
+required; the optional package `extremefit` is used in Exercise 3 only if it
+happens to be installed (the solution never depends on it).
+
+---
+
+# Exercise 1 — Normal distribution $N(2, \sigma^2 = 4)$
+
+The parametrisation used by R is `rnorm(n, mean, sd)`, so a variance of 4 means
+`sd = 2`.
+
+```{r ex1-params}
+mu <- 2
+sigma2 <- 4
+sigma <- sqrt(sigma2)     # sd = 2
+n <- 100
+x <- rnorm(n, mean = mu, sd = sigma)
+head(round(x, 4))
+```
+
+## (a) Sample characteristics
+
+```{r ex1a}
+carac <- c(
+  mean   = mean(x),
+  median = median(x),
+  sd     = sd(x),
+  var    = var(x)
+)
+round(carac, 4)
+
+# quartiles and deciles
+round(quantile(x), 4)
+round(quantile(x, probs = seq(0, 1, by = 0.1)), 4)
+
+# comparison with the theoretical values
+data.frame(
+  quantity    = c("mean", "median", "sd"),
+  sample      = round(c(mean(x), median(x), sd(x)), 4),
+  theoretical = c(mu, mu, sigma)
+)
+```
+
+The sample values fluctuate around the theoretical ones; with $n=100$ the
+standard error of the mean is $\sigma/\sqrt{n}=0.2$, which explains the
+observed deviation.
+
+## (b) p.d.f. and c.d.f. evaluated at the generated points
+
+Because the generated points are in random order, plotting them directly gives
+a scatter of points. Sorting the abscissae reveals the familiar curves.
+
+```{r ex1b}
+fx <- dnorm(x, mean = mu, sd = sigma)   # density at the sample points
+Fx <- pnorm(x, mean = mu, sd = sigma)   # c.d.f. at the sample points
+
+op <- par(mfrow = c(1, 2))
+plot(x, fx, pch = 20, col = "steelblue",
+     xlab = "x", ylab = "f(x)", main = "p.d.f. at generated points")
+plot(x, Fx, pch = 20, col = "darkred",
+     xlab = "x", ylab = "F(x)", main = "c.d.f. at generated points")
+par(op)
+
+# same information, with sorted abscissae -> smooth curves
+o <- order(x)
+op <- par(mfrow = c(1, 2))
+plot(x[o], fx[o], type = "l", lwd = 2, col = "steelblue",
+     xlab = "x", ylab = "f(x)", main = "p.d.f. (sorted)")
+plot(x[o], Fx[o], type = "l", lwd = 2, col = "darkred",
+     xlab = "x", ylab = "F(x)", main = "c.d.f. (sorted)")
+par(op)
+```
+
+## (c) Histogram of the generated sample
+
+```{r ex1c}
+hist(x, breaks = "Sturges", col = "lightblue", border = "white",
+     main = "Histogram of the N(2,4) sample (n = 100)",
+     xlab = "x")
+rug(x)
+```
+
+## (d) A suitable grid of values
+
+### (d.i) p.d.f. of $N(2,4)$ on the grid
+
+A sensible grid covers $\mu \pm 4\sigma$, i.e. roughly $[-6, 10]$; we take it
+slightly wider than the observed range.
+
+```{r ex1di}
+grid <- seq(mu - 4 * sigma, mu + 4 * sigma, length.out = 400)
+f_grid <- dnorm(grid, mean = mu, sd = sigma)
+
+plot(grid, f_grid, type = "l", lwd = 2, col = "steelblue",
+     xlab = "x", ylab = "f(x)",
+     main = expression(paste("p.d.f. of ", N(2, 4), " on the grid")))
+abline(v = mu, lty = 3)
+```
+
+### (d.ii) Histogram + theoretical p.d.f., for $n = 100$ and $n = 1000$
+
+```{r ex1dii, fig.width=9, fig.height=4}
+plot_hist_pdf <- function(n) {
+  xs <- rnorm(n, mu, sigma)
+  hist(xs, breaks = "FD", freq = FALSE, col = "grey90", border = "white",
+       xlim = range(grid), ylim = c(0, max(f_grid) * 1.25),
+       main = paste0("n = ", n), xlab = "x", ylab = "density")
+  lines(grid, f_grid, lwd = 2, col = "steelblue")
+  lines(density(xs), lwd = 2, lty = 2, col = "darkorange")
+  legend("topright", bty = "n", lwd = 2, lty = c(1, 2),
+         col = c("steelblue", "darkorange"),
+         legend = c("theoretical N(2,4)", "kernel estimate"))
+  invisible(xs)
+}
+
+op <- par(mfrow = c(1, 2))
+x100  <- plot_hist_pdf(100)
+x1000 <- plot_hist_pdf(1000)
+par(op)
+```
+
+**Comment.** With $n=1000$ the histogram tracks the theoretical density much
+more closely: the Monte Carlo error decreases at rate $O(n^{-1/2})$, and the
+kernel estimate becomes almost indistinguishable from $f$.
+
+---
+
+# Exercise 2 — Binomial distribution $B(100, 0.25)$
+
+```{r ex2-params}
+size <- 100; prob <- 0.25
+n2 <- 5000
+y <- rbinom(n2, size = size, prob = prob)
+```
+
+## (a) Sample characteristics, p.m.f. and c.d.f.
+
+```{r ex2a}
+data.frame(
+  quantity    = c("mean", "variance", "sd", "median"),
+  sample      = round(c(mean(y), var(y), sd(y), median(y)), 4),
+  theoretical = round(c(size * prob,
+                        size * prob * (1 - prob),
+                        sqrt(size * prob * (1 - prob)),
+                        qbinom(0.5, size, prob)), 4)
+)
+
+round(quantile(y, probs = c(0.05, 0.25, 0.5, 0.75, 0.95)), 2)
+
+pts <- c(15, 20, 25, 30, 35)
+data.frame(
+  x    = pts,
+  pmf  = round(dbinom(pts, size, prob), 5),
+  cdf  = round(pbinom(pts, size, prob), 5),
+  emp_cdf = round(sapply(pts, function(k) mean(y <= k)), 5)
+)
+```
+
+The empirical c.d.f. of the 5000 simulated values agrees with the theoretical
+one to about two or three decimal places, as expected for this sample size.
+
+## (b) Bar plots for $B(10,0.25)$, $B(50,0.25)$, $B(100,0.25)$
+
+```{r ex2b, fig.width=9.5, fig.height=3.6}
+bar_binom <- function(m, p = 0.25, n = 5000) {
+  z  <- rbinom(n, m, p)
+  tb <- table(factor(z, levels = 0:m))
+  rel <- as.numeric(tb) / n
+  bp <- barplot(rel, names.arg = 0:m, col = "grey85", border = "white",
+                ylim = c(0, max(rel, dbinom(0:m, m, p)) * 1.15),
+                main = paste0("B(", m, ", ", p, "), n = ", n),
+                xlab = "x", ylab = "relative frequency")
+  # theoretical p.m.f. on the same (bar-centred) scale
+  points(bp, dbinom(0:m, m, p), pch = 19, col = "red", cex = 0.7)
+  lines(bp, dbinom(0:m, m, p), col = "red", lwd = 1.5)
+  legend("topright", bty = "n", pch = 19, col = "red", legend = "p.m.f.")
+}
+
+op <- par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+bar_binom(10); bar_binom(50); bar_binom(100)
+par(op)
+```
+
+The simulated relative frequencies sit on top of the theoretical p.m.f. in all
+three cases, and the shape becomes increasingly symmetric and bell-like as $m$
+grows.
+
+## (c) Normal approximation: $B(100,0.25)$ vs $N(25, 18.75)$
+
+Here $np = 25$ and $np(1-p) = 18.75$, so the matching normal is
+$N(25, \sigma^2=18.75)$.
+
+```{r ex2c, fig.width=9.5, fig.height=4}
+w <- rnorm(n2, mean = 25, sd = sqrt(18.75))
+
+op <- par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+
+# 1) overlaid histograms / density
+hist(y, breaks = seq(min(y, w) - 0.5, max(y, w) + 0.5, by = 1),
+     freq = FALSE, col = rgb(0, 0, 1, 0.25), border = "white",
+     main = "Binomial vs Normal", xlab = "x")
+lines(density(w), lwd = 2, col = "red")
+legend("topright", bty = "n", lwd = 2, col = c("blue", "red"),
+       legend = c("B(100,0.25)", "N(25,18.75)"))
+
+# 2) empirical c.d.f.'s
+plot(ecdf(y), verticals = TRUE, do.points = FALSE, col = "blue", lwd = 2,
+     main = "Empirical c.d.f.'s", xlab = "x", ylab = "F(x)")
+plot(ecdf(w), verticals = TRUE, do.points = FALSE, col = "red", lwd = 2,
+     add = TRUE)
+
+# 3) QQ-plot of the two samples
+qqplot(y, w, pch = 20, col = "darkgreen",
+       xlab = "Binomial quantiles", ylab = "Normal quantiles",
+       main = "QQ-plot")
+abline(0, 1, col = "grey40", lwd = 2)
+
+par(op)
+
+# numerical comparison
+rbind(
+  binomial = round(c(mean = mean(y), var = var(y),
+                     quantile(y, c(0.05, 0.5, 0.95))), 3),
+  normal   = round(c(mean = mean(w), var = var(w),
+                     quantile(w, c(0.05, 0.5, 0.95))), 3)
+)
+
+ks.test(y, w)
+```
+
+**Comment.** The two distributions are practically indistinguishable except for
+the discreteness of the binomial (visible as the staircase in the c.d.f. and the
+steps in the QQ-plot). This illustrates the de Moivre–Laplace / CLT
+approximation, valid here because $np=25$ and $n(1-p)=75$ are both large.
+
+---
+
+# Exercise 3 — Type I Pareto $Pa(\alpha,\beta)$
+
+$$f(x\mid\alpha,\beta)=\alpha\beta^{\alpha}x^{-(\alpha+1)},\quad x\ge\beta,
+\qquad F(x)=1-\left(\frac{\beta}{x}\right)^{\alpha}.$$
+
+Inverting the c.d.f. gives the quantile function and hence the inversion method:
+
+$$F^{-1}(p)=\beta(1-p)^{-1/\alpha},\qquad
+X = \beta\,U^{-1/\alpha},\ U\sim U(0,1).$$
+
+## (a) Home-made `dpareto1`, `ppareto1`, `qpareto1`, `rpareto1`
+
+```{r ex3a-funs}
+dpareto1 <- function(x, alpha = 3, beta = 1.5, log = FALSE) {
+  stopifnot(alpha > 0, beta > 0)
+  out <- ifelse(x >= beta, alpha * beta^alpha * x^(-(alpha + 1)), 0)
+  if (log) log(out) else out
+}
+
+ppareto1 <- function(q, alpha = 3, beta = 1.5, lower.tail = TRUE) {
+  stopifnot(alpha > 0, beta > 0)
+  p <- ifelse(q >= beta, 1 - (beta / q)^alpha, 0)
+  if (lower.tail) p else 1 - p
+}
+
+qpareto1 <- function(p, alpha = 3, beta = 1.5) {
+  stopifnot(alpha > 0, beta > 0, all(p >= 0 & p <= 1))
+  beta * (1 - p)^(-1 / alpha)
+}
+
+rpareto1 <- function(n, alpha = 3, beta = 1.5) {
+  u <- runif(n)                 # inversion method
+  beta * u^(-1 / alpha)         # U and 1-U are equally uniform
+}
+```
+
+Checks with $\alpha=3$, $\beta=1.5$:
+
+```{r ex3a-check}
+al <- 3; be <- 1.5
+
+# the density integrates to 1
+integrate(dpareto1, lower = be, upper = Inf, alpha = al, beta = be)
+
+# q and p are mutual inverses
+p0 <- c(0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99)
+data.frame(p = p0,
+           quantile = round(qpareto1(p0, al, be), 4),
+           back     = round(ppareto1(qpareto1(p0, al, be), al, be), 6))
+
+set.seed(1)
+xp <- rpareto1(10000, al, be)
+data.frame(
+  quantity    = c("mean", "variance"),
+  sample      = round(c(mean(xp), var(xp)), 4),
+  theoretical = round(c(al * be / (al - 1),
+                        al * be^2 / ((al - 1)^2 * (al - 2))), 4)
+)
+```
+
+```{r ex3a-plot, fig.width=9, fig.height=4}
+gx <- seq(be, 8, length.out = 400)
+op <- par(mfrow = c(1, 2))
+hist(xp[xp < 8], breaks = 60, freq = FALSE, col = "grey90", border = "white",
+     main = "Simulated Pa(3, 1.5)", xlab = "x")
+lines(gx, dpareto1(gx, al, be), lwd = 2, col = "steelblue")
+plot(ecdf(xp), do.points = FALSE, verticals = TRUE, xlim = c(be, 8),
+     main = "c.d.f.: empirical vs theoretical", xlab = "x", ylab = "F(x)")
+lines(gx, ppareto1(gx, al, be), lwd = 2, col = "red")
+legend("bottomright", bty = "n", lwd = 2, col = c("black", "red"),
+       legend = c("empirical", "theoretical"))
+par(op)
+```
+
+### Hint: the same exercise with `extremefit`
+
+The chunk below runs only if the package is available, so the document knits
+either way.
+
+```{r ex3a-extremefit}
+if (requireNamespace("extremefit", quietly = TRUE)) {
+  library(extremefit)
+  # extremefit uses (shape = alpha, scale = beta) with support x >= beta
+  print(round(extremefit::dpareto(gx[1:5], a = al), 6)) #, delta = be
+  print(round(dpareto1(gx[1:5], al, be), 6))
+  print(round(extremefit::qpareto(p0, a = al), 4)) #, delta = be
+  print(round(qpareto1(p0, al, be), 4))
+} else {
+  message("Package 'extremefit' not installed - install.packages('extremefit')")
+}
+```
+
+## (b) Effect of $\alpha$ and $\beta$ on the density
+
+```{r ex3b, fig.width=9.5, fig.height=4}
+op <- par(mfrow = c(1, 2))
+
+# varying alpha, beta fixed
+alphas <- c(0.5, 1, 2, 3, 5)
+gx2 <- seq(1.5, 6, length.out = 400)
+plot(NA, xlim = range(gx2), ylim = c(0, 3.6), xlab = "x", ylab = "f(x)",
+     main = expression(paste("beta = 1.5, varying ", alpha)))
+for (i in seq_along(alphas))
+  lines(gx2, dpareto1(gx2, alphas[i], 1.5), lwd = 2, col = i)
+legend("topright", bty = "n", lwd = 2, col = seq_along(alphas),
+       legend = paste("alpha =", alphas))
+
+# varying beta, alpha fixed
+betas <- c(0.5, 1, 1.5, 2.5)
+gx3 <- seq(0.4, 6, length.out = 600)
+plot(NA, xlim = range(gx3), ylim = c(0, 6.5), xlab = "x", ylab = "f(x)",
+     main = expression(paste("alpha = 3, varying ", beta)))
+for (i in seq_along(betas))
+  lines(gx3, dpareto1(gx3, 3, betas[i]), lwd = 2, col = i)
+legend("topright", bty = "n", lwd = 2, col = seq_along(betas),
+       legend = paste("beta =", betas))
+
+par(op)
+```
+
+**Comment.** $\beta$ is a *location/scale* threshold: it fixes the left endpoint
+of the support and the height $f(\beta)=\alpha/\beta$. $\alpha$ is the *tail
+index*: larger $\alpha$ means a density concentrated near $\beta$ and a lighter
+tail; small $\alpha$ gives a very heavy tail (and infinite moments).
+
+## (c) Moments when $\alpha \le 1$ and/or $\alpha \le 2$
+
+```{r ex3c}
+alpha_vec <- c(0.5, 1, 1.5, 2, 2.5, 3, 5)
+N <- 20000
+res <- t(sapply(alpha_vec, function(a) {
+  s <- rpareto1(N, a, 1.5)
+  c(alpha = a,
+    sample_mean = mean(s),
+    sample_var  = var(s),
+    theo_mean   = if (a > 1) a * 1.5 / (a - 1) else Inf,
+    theo_var    = if (a > 2) a * 1.5^2 / ((a - 1)^2 * (a - 2)) else Inf,
+    max         = max(s))
+}))
+print(round(as.data.frame(res), 3))
+```
+
+Instability across repetitions, for three regimes:
+
+```{r ex3c-rep}
+rep_stats <- function(a, R = 8, N = 20000) {
+  t(replicate(R, {
+    s <- rpareto1(N, a, 1.5); c(mean = mean(s), var = var(s))
+  }))
+}
+round(rep_stats(0.8), 2)   # no mean, no variance
+round(rep_stats(1.5), 2)   # mean exists, variance does not
+round(rep_stats(3.0), 2)   # both exist
+```
+
+**Comment.**
+
+* $\alpha \le 1$: $E(X)=\infty$. The sample mean does not stabilise — it jumps
+  wildly between replications and is driven by the largest observation. The Law
+  of Large Numbers does not apply.
+* $1 < \alpha \le 2$: the mean exists and the sample mean converges, but
+  $\operatorname{Var}(X)=\infty$, so the sample variance is erratic and grows
+  with $n$; the CLT in its usual form fails (no finite-variance normal limit).
+* $\alpha > 2$: both moments are finite and the sample values are close to the
+  theoretical ones, with the usual $O(n^{-1/2})$ error.
+
+The finite sample statistics are *always* finite, which is exactly the trap:
+a finite number never signals by itself that the underlying moment diverges —
+only its behaviour as $n$ and across replications does.
+
+---
+
+# Exercise 4 — Logistic distribution $Lo(\alpha=1, \beta=2)$
+
+With $z=(x-\alpha)/\beta$,
+
+$$f(x)=\frac{\beta^{-1}e^{-z}}{(1+e^{-z})^{2}},\qquad
+F(x)=\frac{1}{1+e^{-z}},\qquad
+F^{-1}(p)=\alpha+\beta\log\!\frac{p}{1-p}.$$
+
+Again inversion gives the generator $X=\alpha+\beta\,\mathrm{logit}(U)$.
+
+```{r ex4-funs}
+dlogis1 <- function(x, alpha = 1, beta = 2) {
+  stopifnot(beta > 0)
+  z <- (x - alpha) / beta
+  e <- exp(-z)
+  e / (beta * (1 + e)^2)
+}
+
+plogis1 <- function(q, alpha = 1, beta = 2) {
+  stopifnot(beta > 0)
+  1 / (1 + exp(-(q - alpha) / beta))
+}
+
+qlogis1 <- function(p, alpha = 1, beta = 2) {
+  stopifnot(beta > 0, all(p > 0 & p < 1))
+  alpha + beta * log(p / (1 - p))
+}
+
+rlogis1 <- function(n, alpha = 1, beta = 2) {
+  u <- runif(n)
+  alpha + beta * log(u / (1 - u))     # inversion method
+}
+```
+
+Validation against R's built-in `*logis` (the hint):
+
+```{r ex4-check}
+a4 <- 1; b4 <- 2
+xs <- c(-4, -1, 0, 1, 3, 6)
+data.frame(
+  x      = xs,
+  mine_d = round(dlogis1(xs, a4, b4), 6),
+  R_d    = round(dlogis(xs, location = a4, scale = b4), 6),
+  mine_p = round(plogis1(xs, a4, b4), 6),
+  R_p    = round(plogis(xs, location = a4, scale = b4), 6)
+)
+
+ps <- c(0.01, 0.1, 0.5, 0.9, 0.99)
+data.frame(p = ps,
+           mine_q = round(qlogis1(ps, a4, b4), 5),
+           R_q    = round(qlogis(ps, location = a4, scale = b4), 5))
+
+#TODO: solve this error
+#integrate(dlogis1, -Inf, Inf, alpha = a4, beta = b4)
+
+set.seed(7)
+xl <- rlogis1(10000, a4, b4)
+data.frame(
+  quantity    = c("mean", "variance"),
+  sample      = round(c(mean(xl), var(xl)), 4),
+  theoretical = round(c(a4, pi^2 * b4^2 / 3), 4)   # Var = pi^2 beta^2 / 3
+)
+```
+
+```{r ex4-plot, fig.width=9.5, fig.height=4}
+gl <- seq(-15, 17, length.out = 500)
+op <- par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+
+hist(xl, breaks = 50, freq = FALSE, col = "grey90", border = "white",
+     main = "Simulated Lo(1,2)", xlab = "x")
+lines(gl, dlogis1(gl, a4, b4), lwd = 2, col = "steelblue")
+
+plot(ecdf(xl), do.points = FALSE, verticals = TRUE,
+     main = "c.d.f.", xlab = "x", ylab = "F(x)")
+lines(gl, plogis1(gl, a4, b4), lwd = 2, col = "red")
+
+qqplot(qlogis1(ppoints(length(xl)), a4, b4), xl, pch = 20, cex = 0.4,
+       col = "darkgreen", main = "QQ-plot vs Lo(1,2)",
+       xlab = "theoretical quantiles", ylab = "sample quantiles")
+abline(0, 1, col = "grey30", lwd = 2)
+
+par(op)
+```
+
+The logistic density is symmetric about $\alpha=1$ and has heavier tails than
+the normal with the same variance.
+
+---
+
+# Exercise 5 — Rejection method for $Be(2,2)$, $f(x)=6x(1-x)$
+
+Proposal $g(x)=1$ on $(0,1)$. We need $c$ with $f(x)\le c\,g(x)$:
+$\max_x f(x)=f(1/2)=3/2$, so $c=3/2$. The acceptance probability is $1/c=2/3$
+and the number of proposals until one acceptance is geometric with mean $c$.
+
+```{r ex5-c}
+f_beta22 <- function(x) ifelse(x > 0 & x < 1, 6 * x * (1 - x), 0)
+cc <- 3 / 2          # = f(1/2)
+1 / cc               # acceptance probability
+```
+
+## (a) Expected number of $U(0,1)$ numbers for 1000 values
+
+Each trial uses **two** uniforms (one for the candidate $Y$, one for the
+acceptance test $U$). So:
+
+```{r ex5a}
+n5 <- 1000
+exp_iter <- n5 * cc            # expected number of iterations (trials)
+exp_unif <- 2 * exp_iter       # expected number of U(0,1) numbers
+c(expected_iterations = exp_iter, expected_uniforms = exp_unif)
+```
+
+On average $1000 \times 1.5 = 1500$ iterations, i.e. about **3000** uniform
+pseudo-random numbers.
+
+## (b) Generating 1000 values with an iteration counter
+
+```{r ex5b}
+rbeta22_rejection <- function(n, c_const = 3 / 2) {
+  out   <- numeric(n)
+  k     <- 0L    # accepted
+  iter  <- 0L    # trials
+  while (k < n) {
+    iter <- iter + 1L
+    y <- runif(1)                   # candidate from g = U(0,1)
+    u <- runif(1)
+    if (u <= f_beta22(y) / (c_const * 1)) {   # accept
+      k <- k + 1L
+      out[k] <- y
+    }
+  }
+  list(x = out, iter = iter, uniforms = 2L * iter,
+       acc_rate = n / iter)
+}
+
+set.seed(123)
+sim <- rbeta22_rejection(n5)
+c(iterations = sim$iter, uniforms = sim$uniforms,
+  expected_iterations = exp_iter,
+  acceptance_rate = round(sim$acc_rate, 4),
+  theoretical_rate = round(1 / cc, 4))
+```
+
+The observed number of iterations is close to the expected 1500, and the
+empirical acceptance rate is close to $2/3$.
+
+```{r ex5b-rep}
+# distribution of the number of iterations over 200 replications
+set.seed(99)
+iters <- replicate(200, rbeta22_rejection(n5)$iter)
+summary(iters)
+hist(iters, breaks = 20, col = "lightblue", border = "white",
+     main = "Iterations needed for n = 1000 (200 replications)",
+     xlab = "iterations")
+abline(v = exp_iter, col = "red", lwd = 2)
+legend("topright", bty = "n", lwd = 2, col = "red",
+       legend = "expected = 1500")
+```
+
+## (c) Percentiles, mean and variance vs theory
+
+For $Be(2,2)$: $E(X)=1/2$, $\operatorname{Var}(X)=\frac{2\cdot2}{4^2\cdot5}=0.05$.
+
+```{r ex5c}
+x5 <- sim$x
+data.frame(
+  quantity    = c("mean", "variance", "median"),
+  sample      = round(c(mean(x5), var(x5), median(x5)), 5),
+  theoretical = round(c(0.5, 2 * 2 / ((2 + 2)^2 * (2 + 2 + 1)), 0.5), 5)
+)
+
+pp <- seq(0.05, 0.95, by = 0.05)
+cmp <- data.frame(
+  p           = pp,
+  empirical   = round(as.numeric(quantile(x5, pp)), 5),
+  theoretical = round(qbeta(pp, 2, 2), 5)
+)
+cmp$abs_diff <- round(abs(cmp$empirical - cmp$theoretical), 5)
+cmp
+
+plot(cmp$theoretical, cmp$empirical, pch = 19, col = "steelblue",
+     xlab = "theoretical percentiles Be(2,2)", ylab = "empirical percentiles",
+     main = "Pointwise comparison of percentiles (n = 1000)")
+abline(0, 1, col = "red", lwd = 2)
+```
+
+## (d) Histogram with the $Be(2,2)$ density superimposed
+
+```{r ex5d}
+hist(x5, breaks = 20, freq = FALSE, col = "grey90", border = "white",
+     ylim = c(0, 1.7), main = "Rejection sampling, n = 1000",
+     xlab = "x")
+curve(f_beta22, 0, 1, add = TRUE, lwd = 2, col = "steelblue", n = 400)
+abline(h = cc, lty = 3, col = "grey40")
+legend("topright", bty = "n", lwd = c(2, 1), lty = c(1, 3),
+       col = c("steelblue", "grey40"),
+       legend = c("f(x) = 6x(1-x)", "envelope c = 1.5"))
+```
+
+## (e) Increasing to $n = 10000$
+
+```{r ex5e, fig.width=9.5, fig.height=4}
+set.seed(2024)
+sim2 <- rbeta22_rejection(10000)
+c(iterations = sim2$iter, expected = 10000 * cc,
+  acceptance_rate = round(sim2$acc_rate, 4))
+
+x6 <- sim2$x
+data.frame(
+  quantity    = c("mean", "variance"),
+  n_1000      = round(c(mean(x5), var(x5)), 5),
+  n_10000     = round(c(mean(x6), var(x6)), 5),
+  theoretical = c(0.5, 0.05)
+)
+
+op <- par(mfrow = c(1, 2))
+hist(x6, breaks = 40, freq = FALSE, col = "grey90", border = "white",
+     ylim = c(0, 1.7), main = "n = 10000", xlab = "x")
+curve(f_beta22, 0, 1, add = TRUE, lwd = 2, col = "steelblue", n = 400)
+
+cmp2 <- data.frame(theoretical = qbeta(pp, 2, 2),
+                   empirical   = as.numeric(quantile(x6, pp)))
+plot(cmp2$theoretical, cmp2$empirical, pch = 19, col = "darkgreen",
+     xlab = "theoretical", ylab = "empirical",
+     main = "Percentiles, n = 10000")
+abline(0, 1, col = "red", lwd = 2)
+par(op)
+
+ks.test(x6, "pbeta", 2, 2)
+```
+
+**Comment.** The acceptance rate is a property of the method ($\approx 2/3$)
+and does not change with $n$; only the *total* cost grows linearly. Accuracy,
+on the other hand, improves markedly: with $n=10000$ the histogram, the
+percentiles, the mean and the variance all match $Be(2,2)$ much more closely,
+and the Kolmogorov–Smirnov test does not reject the hypothesis that the sample
+comes from $Be(2,2)$.
+
+---
+
+# Exercise 6 — Mixtures of Gamma distributions
+
+A mixture $\sum_i w_i f_i$ is simulated in two steps: draw the component
+index $I$ with probabilities $w_i$, then draw from $f_I$ (composition method).
+
+## (a) $0.3\,Ga(1.5,3) + 0.7\,Ga(5,3)$
+
+We use the (shape, rate) parametrisation, `rgamma(n, shape, rate)`.
+
+```{r ex6a}
+n6 <- 10000
+w      <- c(0.3, 0.7)
+shapes <- c(1.5, 5)
+rate   <- 3
+
+comp <- sample(seq_along(w), size = n6, replace = TRUE, prob = w)
+xm1  <- rgamma(n6, shape = shapes[comp], rate = rate)
+
+# theoretical mixture density
+dmix1 <- function(x) w[1] * dgamma(x, shapes[1], rate) +
+                     w[2] * dgamma(x, shapes[2], rate)
+
+round(c(sample_mean = mean(xm1),
+        theoretical_mean = sum(w * shapes / rate),
+        sample_var = var(xm1)), 4)
+```
+
+```{r ex6a-plot, fig.width=9.5, fig.height=4}
+g6 <- seq(0, max(xm1), length.out = 500)
+op <- par(mfrow = c(1, 2))
+hist(xm1, breaks = 60, freq = FALSE, col = "grey90", border = "white",
+     main = "0.3 Ga(1.5,3) + 0.7 Ga(5,3)", xlab = "x")
+lines(g6, dmix1(g6), lwd = 2, col = "red")
+lines(density(xm1), lwd = 2, lty = 2, col = "steelblue")
+legend("topright", bty = "n", lwd = 2, lty = c(1, 2),
+       col = c("red", "steelblue"),
+       legend = c("mixture p.d.f.", "kernel estimate"))
+
+plot(g6, dmix1(g6), type = "l", lwd = 2, col = "red",
+     xlab = "x", ylab = "density", main = "Mixture and its components")
+lines(g6, w[1] * dgamma(g6, shapes[1], rate), lty = 2, col = "darkorange", lwd = 2)
+lines(g6, w[2] * dgamma(g6, shapes[2], rate), lty = 3, col = "purple", lwd = 2)
+legend("topright", bty = "n", lwd = 2, lty = 1:3,
+       col = c("red", "darkorange", "purple"),
+       legend = c("mixture", "0.3 Ga(1.5,3)", "0.7 Ga(5,3)"))
+par(op)
+```
+
+The mixture is right-skewed with a shoulder on the left contributed by the
+$Ga(1.5,3)$ component.
+
+## (b) $\sum_{i=1}^{5}\theta_i\,f_{Ga(3,\theta_i)}$
+
+Here the same $\theta_i$ play both roles: mixing weights **and** rate of the
+$i$-th gamma component (shape fixed at 3). The weights sum to 1.
+
+```{r ex6b}
+theta <- c(0.1, 0.2, 0.2, 0.3, 0.2)
+sum(theta)             # = 1, so it is a proper mixture
+shape6 <- 3
+
+comp2 <- sample(seq_along(theta), size = n6, replace = TRUE, prob = theta)
+xm2   <- rgamma(n6, shape = shape6, rate = theta[comp2])
+
+dmix2 <- function(x)
+  rowSums(sapply(seq_along(theta),
+                 function(i) theta[i] * dgamma(x, shape6, rate = theta[i])))
+
+round(c(sample_mean = mean(xm2),
+        theoretical_mean = sum(theta * shape6 / theta),   # weight_i * shape/rate_i
+        sample_median = median(xm2)), 4)
+```
+
+Note the theoretical mean is $\sum_i \theta_i \cdot \frac{3}{\theta_i}
+= 3 \times 5 = 15$ only because each weight cancels its own rate — a nice
+particular feature of this parametrisation.
+
+```{r ex6b-plot, fig.width=9.5, fig.height=4}
+g7 <- seq(0, quantile(xm2, 0.995), length.out = 600)
+op <- par(mfrow = c(1, 2))
+hist(xm2[xm2 <= max(g7)], breaks = 60, freq = FALSE,
+     col = "grey90", border = "white",
+     main = "Mixture of 5 Ga(3, theta_i)", xlab = "x")
+lines(g7, dmix2(g7), lwd = 2, col = "red")
+lines(density(xm2), lwd = 2, lty = 2, col = "steelblue")
+legend("topright", bty = "n", lwd = 2, lty = c(1, 2),
+       col = c("red", "steelblue"),
+       legend = c("mixture p.d.f.", "kernel estimate"))
+
+plot(g7, dmix2(g7), type = "l", lwd = 3, col = "red",
+     ylim = c(0, max(sapply(seq_along(theta),
+              function(i) max(theta[i] * dgamma(g7, shape6, theta[i]))))* 1.1),
+     xlab = "x", ylab = "density", main = "Weighted components")
+for (i in seq_along(theta))
+  lines(g7, theta[i] * dgamma(g7, shape6, rate = theta[i]),
+        lty = 2, col = i + 1, lwd = 1.8)
+legend("topright", bty = "n", lwd = 2, col = c("red", seq_along(theta) + 1),
+       lty = c(1, rep(2, 5)),
+       legend = c("mixture", paste0("theta = ", theta)))
+par(op)
+```
+
+Because small $\theta_i$ means a large scale $1/\theta_i$, the components with
+$\theta=0.1$ and $0.2$ produce the long right tail, while $\theta=0.3$
+concentrates mass near $x\approx 10$.
+
+---
+
+# Exercise 7 — Beta-Binomial $Betabin(n,\alpha,\beta)$
+
+## (a) The Beta-Binomial as a Binomial–Beta mixture
+
+Let $X\mid Y=y \sim B(n,y)$ and $Y\sim Be(\alpha,\beta)$. Then
+
+$$f(x) = \int_0^1 \binom{n}{x} y^{x}(1-y)^{n-x}\,
+\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}
+y^{\alpha-1}(1-y)^{\beta-1}\,dy
+= \binom{n}{x}\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}
+\int_0^1 y^{\alpha+x-1}(1-y)^{\beta+n-x-1}\,dy .$$
+
+The integral is the Beta function $B(\alpha+x,\ \beta+n-x)$, hence
+
+$$f(x)=\binom{n}{x}\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}\,
+\frac{\Gamma(\alpha+x)\Gamma(\beta+n-x)}{\Gamma(\alpha+\beta+n)}
+= c\binom{n}{x}\Gamma(\alpha+x)\Gamma(\beta+n-x),$$
+
+with $c=\dfrac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)\Gamma(\alpha+\beta+n)}$,
+which is exactly the stated p.m.f. $\square$
+
+This derivation *is* the generation algorithm: draw $Y\sim Be(\alpha,\beta)$,
+then $X\mid Y \sim B(n,Y)$.
+
+Numerical confirmation of the identity:
+
+```{r ex7a}
+al7 <- 10; be7 <- 22; n7 <- 4
+
+dbetabin <- function(x, alpha, beta, n) {
+  cst <- exp(lgamma(alpha + beta) - lgamma(alpha) - lgamma(beta) -
+             lgamma(alpha + beta + n))
+  cst * choose(n, x) * gamma(alpha + x) * gamma(beta + n - x)
+}
+
+# via numerical integration of the mixture representation
+dbetabin_int <- function(x, alpha, beta, n)
+  sapply(x, function(k)
+    integrate(function(y)
+      choose(n, k) * y^k * (1 - y)^(n - k) * dbeta(y, alpha, beta),
+      0, 1)$value)
+
+xx <- 0:n7
+data.frame(
+  x         = xx,
+  closed    = round(dbetabin(xx, al7, be7, n7), 8),
+  integral  = round(dbetabin_int(xx, al7, be7, n7), 8)
+)
+sum(dbetabin(xx, al7, be7, n7))   # = 1
+```
+
+## (b) Simulation with $(\alpha,\beta,n)=(10,22,4)$
+
+```{r ex7b}
+rbetabin <- function(N, alpha, beta, n) {
+  y <- rbeta(N, alpha, beta)      # step 1: the mixing variable
+  rbinom(N, size = n, prob = y)   # step 2: conditional binomial
+}
+
+set.seed(555)
+N7 <- 20000
+xb <- rbetabin(N7, al7, be7, n7)
+
+# theoretical moments
+m7 <- n7 * al7 / (al7 + be7)
+v7 <- n7 * al7 * be7 * (al7 + be7 + n7) /
+      ((al7 + be7)^2 * (al7 + be7 + 1))
+
+data.frame(
+  quantity    = c("mean", "variance"),
+  sample      = round(c(mean(xb), var(xb)), 5),
+  theoretical = round(c(m7, v7), 5)
+)
+
+tb <- table(factor(xb, levels = xx))
+data.frame(
+  x           = xx,
+  simulated   = round(as.numeric(tb) / N7, 5),
+  theoretical = round(dbetabin(xx, al7, be7, n7), 5)
+)
+```
+
+```{r ex7b-plot, fig.width=9.5, fig.height=4}
+op <- par(mfrow = c(1, 2))
+bp <- barplot(as.numeric(tb) / N7, names.arg = xx, col = "grey85",
+              border = "white", ylim = c(0, 0.45),
+              main = "Betabin(4, 10, 22): simulated vs theoretical",
+              xlab = "x", ylab = "probability")
+points(bp, dbetabin(xx, al7, be7, n7), pch = 19, col = "red")
+lines(bp, dbetabin(xx, al7, be7, n7), col = "red", lwd = 1.5)
+legend("topright", bty = "n", pch = 19, col = "red", legend = "p.m.f.")
+
+# overdispersion relative to a plain Binomial with the same mean
+p_eq <- al7 / (al7 + be7)
+plot(bp, as.numeric(tb) / N7, type = "h", lwd = 6, col = "grey70",
+     xaxt = "n", ylim = c(0, 0.45), xlab = "x", ylab = "probability",
+     main = "Beta-Binomial vs Binomial(4, 0.3125)")
+axis(1, at = bp, labels = xx)
+points(bp, dbinom(xx, n7, p_eq), pch = 17, col = "blue")
+legend("topright", bty = "n", pch = c(NA, 17), lwd = c(6, NA),
+       col = c("grey70", "blue"),
+       legend = c("Beta-Binomial (simulated)", "Binomial, same mean"))
+par(op)
+
+c(betabin_var = round(v7, 4),
+  binomial_var = round(n7 * p_eq * (1 - p_eq), 4))
+```
+
+**Comment.** Both distributions share the mean $n\alpha/(\alpha+\beta)=1.25$,
+but the Beta-Binomial has a larger variance — the classic *overdispersion*
+produced by randomising the binomial success probability.
+
+---
+
+# Exercise 8 — Bivariate uniform on $\{0<x<y<1\}$
+
+$$f_{(X,Y)}(x,y)=2,\qquad 0<x<y<1 .$$
+
+## Analytical preparation
+
+Marginal of $Y$: $f_Y(y)=\int_0^y 2\,dx = 2y$, $0<y<1$, i.e. $Y\sim Be(2,1)$
+with $F_Y(y)=y^2$ and $F_Y^{-1}(u)=\sqrt{u}$.
+
+Conditional: $f_{X\mid Y}(x\mid y)=\frac{2}{2y}=\frac1y$, so
+$X\mid Y=y \sim U(0,y)$.
+
+Hence the **conditional (composition) method**:
+$$Y=\sqrt{U_1},\qquad X = Y\,U_2 .$$
+
+Two alternatives are shown for comparison: rejection over the unit square, and
+the order-statistic trick $(X,Y)=(\min(U_1,U_2),\max(U_1,U_2))$ — since the
+pair of order statistics of two independent uniforms has exactly density 2 on
+$0<x<y<1$.
+
+```{r ex8-funs}
+# Method 1: conditional / inversion
+r_biv_cond <- function(n) {
+  y <- sqrt(runif(n))
+  x <- y * runif(n)
+  cbind(x = x, y = y)
+}
+
+# Method 2: rejection on the unit square (acceptance probability 1/2)
+r_biv_rej <- function(n) {
+  out <- matrix(NA_real_, n, 2, dimnames = list(NULL, c("x", "y")))
+  k <- 0L; iter <- 0L
+  while (k < n) {
+    iter <- iter + 1L
+    u <- runif(2)
+    if (u[1] < u[2]) { k <- k + 1L; out[k, ] <- u }
+  }
+  attr(out, "iter") <- iter
+  out
+}
+
+# Method 3: order statistics of two uniforms
+r_biv_ord <- function(n) {
+  u1 <- runif(n); u2 <- runif(n)
+  cbind(x = pmin(u1, u2), y = pmax(u1, u2))
+}
+```
+
+## Samples of different sizes
+
+```{r ex8-plots, fig.width=9.5, fig.height=3.6}
+set.seed(31)
+sizes <- c(100, 1000, 10000)
+
+op <- par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+for (nn in sizes) {
+  s <- r_biv_cond(nn)
+  plot(s[, "x"], s[, "y"], pch = 20, cex = ifelse(nn > 2000, 0.25, 0.6),
+       col = rgb(0, 0, 0.6, 0.45), xlim = c(0, 1), ylim = c(0, 1),
+       xlab = "x", ylab = "y", main = paste("n =", nn), asp = 1)
+  abline(0, 1, col = "red", lwd = 2)      # the boundary y = x
+  polygon(c(0, 0, 1), c(0, 1, 1), border = "red", lwd = 1, lty = 3)
+}
+par(op)
+```
+
+All points fall in the upper triangle $y>x$ and fill it uniformly, as they
+should for a constant density.
+
+## Checking the three methods agree
+
+```{r ex8-check}
+set.seed(7)
+n8 <- 20000
+S1 <- r_biv_cond(n8)
+S2 <- r_biv_rej(n8)
+S3 <- r_biv_ord(n8)
+
+theo <- c(E_X = 1/3, E_Y = 2/3, Var_X = 1/18, Var_Y = 1/18, Cov = 1/36)
+summ <- function(S) c(E_X = mean(S[, 1]), E_Y = mean(S[, 2]),
+                      Var_X = var(S[, 1]), Var_Y = var(S[, 2]),
+                      Cov = cov(S[, 1], S[, 2]))
+round(rbind(conditional = summ(S1), rejection = summ(S2),
+            order_stat = summ(S3), theoretical = theo), 5)
+
+# rejection cost: expected 2n iterations
+c(iterations = attr(S2, "iter"), expected = 2 * n8)
+
+# all points respect the support
+c(cond_ok = all(S1[, 1] < S1[, 2]), rej_ok = all(S2[, 1] < S2[, 2]),
+  ord_ok = all(S3[, 1] <= S3[, 2]))
+```
+
+## Marginals
+
+```{r ex8-marginals, fig.width=9.5, fig.height=4}
+op <- par(mfrow = c(1, 2))
+hist(S1[, "x"], breaks = 40, freq = FALSE, col = "grey90", border = "white",
+     main = "Marginal of X", xlab = "x", ylim = c(0, 2.2))
+curve(2 * (1 - x), 0, 1, add = TRUE, lwd = 2, col = "steelblue")
+legend("topright", bty = "n", lwd = 2, col = "steelblue",
+       legend = expression(f[X](x) == 2 * (1 - x)))
+
+hist(S1[, "y"], breaks = 40, freq = FALSE, col = "grey90", border = "white",
+     main = "Marginal of Y", xlab = "y", ylim = c(0, 2.2))
+curve(2 * x, 0, 1, add = TRUE, lwd = 2, col = "darkred")
+legend("topleft", bty = "n", lwd = 2, col = "darkred",
+       legend = expression(f[Y](y) == 2 * y))
+par(op)
+```
+
+The empirical marginals match $f_X(x)=2(1-x)$ and $f_Y(y)=2y$, confirming the
+construction. Note that $X$ and $Y$ are **not** independent
+($\operatorname{Cov}=1/36>0$), which the triangular support makes obvious.
+
+---
+
+# Session information
+
+```{r session}
+sessionInfo()
+```

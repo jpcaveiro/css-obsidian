@@ -11,7 +11,7 @@ Math (only math):
 * [[Write density]]
 
 Cases:
-* [[plot]]
+* [[hand plot]]
 
 Coding:
 * [[write pseudo code]] 
@@ -21,6 +21,7 @@ Coding:
 
 Actions:
 * [[Empirically find]]
-* [[Further Reading]]
+* [[Further reading]]
+* [[Background reading]]
 * [[improve]]
 

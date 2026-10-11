@@ -1,7 +1,7 @@
 # inverse transform method
 
-How to use [[uniform distribution]] to generate random numbers with another distribution?
-* one method is the "inverse transform method" (*itm*).
+How to use [[Uniform distribution]] to generate random numbers with another distribution?
+* one method is the "inverse transform method" (or *itm*).
 
 The Inverse transform method is presented in these sections:
 
@@ -13,8 +13,8 @@ The Inverse transform method is presented in these sections:
 	* special case: binomial - [[itm udv binomial]]
 	* special case: Poisson - [[itm udv poisson]]
 * multivariate continuous variables (itm mcv)
-	* [[itm mcv independent]]
-	* [[itm mcv dependent]]
+	* independent case - [[itm mcv independent]]
+	* dependent case - [[itm mcv dependent]]
 * multivariate discrete variables
 	* [[itm mdv]]  (not planned)
 

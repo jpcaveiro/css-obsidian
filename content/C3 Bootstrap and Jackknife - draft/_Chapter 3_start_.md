@@ -9,5 +9,6 @@ DRAFT
 * [[c3_02bootstrap]]
 * [[c3_03jackknife]]
 
-[[Further Reading]]: [[LLM C3 names origin|about names "bootstrap" and "jack+knife " ...]]
+[[Further reading]]: 
+* [[LLM C3 names origin|about names "bootstrap" and "jack+knife " ...]]
 

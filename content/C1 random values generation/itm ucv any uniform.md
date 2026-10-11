@@ -6,12 +6,13 @@ Keywords:
 
 To generate for any uniform distribution:
 
-
 ![[Pasted image 20260622162140.png]]
 
-Exercises (a review of the previous slide):
-1. [[explain]] the above development.
-2. [[write pseudo code]] to get random values for distribution $U(a; b)$
+[[Memory is Something We Do]].
+
+Exercise 1. [[explain]] the above development.
+
+Exercise 2. [[write pseudo code]] to get random values for distribution $U(a; b)$
 
 > [!example]- solution
 > Part 1: use $U=F_X(X)$.

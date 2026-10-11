@@ -6,16 +6,16 @@ Keywords:
 * [[Bernoulli distribution]]
 * [[binomial distribution]]
 
+The generation of binomial random variables is based on the definition of [[binomial distribution]]: counting successes:
 
-![[Pasted image 20260622174417.png]]
+![[binomial distribution]]
 
-Exercises:
-1. [[plot]] the distribution function for a generic binomial distribution $Bi(n; p)$.
-2. [[explain]] difficulties in using [[itm udv|the discrete algorithm]] directly.
-3. [[explain]] the following solution and missing add step "6)":
+[[Memory is Something We Do]]
+
+Exercise 1. [[hand plot]] the distribution function for a generic binomial distribution $Bi(n=5; p=0.1)$.
+
+Exercise 2. [[explain]] the following solution and missing add step "6)":
 ![[Pasted image 20260622174405.png]]
-4. [[write R code and run it]] to check the above algorihtm with 1000 random numbers. Use bar graph to plot results.
-> [!example]- proposal
-> [[explain]] each instruction.
-> ![[Pasted image 20260623010820.png]]
 
+Exercise 3. [[write R code and run it]] and [[explain]] each instruction.
+![[Pasted image 20260623010820.png]]

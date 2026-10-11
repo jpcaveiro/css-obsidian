@@ -9,7 +9,13 @@ Random number generation methods and cases.
 * [[univariate distributions in R]]
 * inverse transform method - [[itm index]]
 * [[rejection method]]
-* [[Sums of random variables]]
+* [[sums of random variables]]
 * [[mixtures of random variables]]
 
-[[zz_c1_references|References.]]
+[[zz_c1_references|References for Chapter 1.]]
+
+# Worksheet for chapter 1
+
+Check folder `_worksheets_`.
+
+
