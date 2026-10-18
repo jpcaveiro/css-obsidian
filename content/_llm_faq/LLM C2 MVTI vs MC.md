@@ -41,4 +41,3 @@ Multidimensional integrals: the trapezoidal rule grows as $N^d$, while Monte Car
 
 See also:
 [LLM C2 numeric methods vs Monte Carlo methods](LLM C2 numeric methods vs Monte Carlo methods) (comparison between numerical methods of integration and monte carlo methods of integration)
-[chat source](https://chat.deepseek.com/a/chat/s/b6d1e17c-e5d6-400d-8738-d9763aaa1048)

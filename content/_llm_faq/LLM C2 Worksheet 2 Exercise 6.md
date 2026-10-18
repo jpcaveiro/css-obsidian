@@ -106,7 +106,3 @@ upper_chi <- qchisq(1 - alpha/2, df = n - 1)
 ci <- c((n - 1) * s2_sample / upper_chi, (n - 1) * s2_sample / lower_chi)
 print(paste("95% CI for sigma^2: [", round(ci[1], 2), ",", round(ci[2], 2), "]"))
 ```
-
-
-Reference:
-* https://chat.deepseek.com/a/chat/s/f20fd97e-9855-41d1-a3eb-2f732dfb7dfb

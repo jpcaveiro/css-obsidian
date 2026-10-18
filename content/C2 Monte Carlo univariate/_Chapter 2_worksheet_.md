@@ -5,14 +5,14 @@
 
 ---
 
-**Exercise 1**. Obtain estimates of $p=P(X>2)$, with $X\sim C(0,1)$, i.e.,
+**Exercise 1**. Obtain estimates of $p=P(X>2)$, with $X\sim Cauchy(0,1)$, i.e.,
    $$
    f(x)=\frac{1}{\pi(1+x^{2})},\qquad -\infty<x<\infty ,
    $$
 using:
 **(a)** the standard [[Cauchy distribution]];
-**(b)** the [[Uniform distribution]] on $(0,2)$;
-**(c)** it is known that $p=0.14758$. Compare the results obtained above and their variances.
+**(b)** the [[Uniform distribution]] on $(0; 2)$;
+**(c)** it is known that $p\approx0.14758$. Compare the results obtained above and their variances.
 
 
 **Exercise 2**. The aim is to compute the value of the integral
@@ -60,4 +60,7 @@ Assuming the model with parameters $a=0.3$ and $\sigma^{2}=1$, a sample of 100 o
 **Exercise 6**. 
 **(a)** Test $H_0:\sigma^{2}=4$ vs $H_1:\sigma^{2}>4$, at significance level $\alpha=0.05$. Using 100000 replications, obtain estimates of the significance level of the test, considering samples of size 100 from normal populations with unit mean, taking $\sigma^{2}=4$, $\sigma^{2}=10$ and $\sigma^{2}=1$. Comment on the results.
 **(b)** Determine a confidence interval for $\sigma^{2}$, using the Monte Carlo method and data drawn from $N(1,4)$.
+
+> [!sample]- a solution
+> [[LLM C2 Worksheet 2 Exercise 6]]
 

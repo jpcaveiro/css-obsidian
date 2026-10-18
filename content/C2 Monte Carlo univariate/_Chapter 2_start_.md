@@ -15,5 +15,8 @@ In general, Monte Carlo methods are all computational tools where one examines p
 	* statistical tests - [[mc_statinference4]]
 	* skewness and normality - [[mc_statinference5]] (not in evaluation)
 
-
 [[Memory is Something We Do|Practice]] with more exercises in [[_Chapter 2_worksheet_]].
+
+References:
+* [[CSS_2.pdf]]
+* [[worksheet-2-en.pdf]] (do only exercises 1 to 6)

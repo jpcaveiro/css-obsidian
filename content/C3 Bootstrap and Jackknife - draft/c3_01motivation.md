@@ -1,3 +1,4 @@
+# Motivation for resampling techniques
 
 ![[Pasted image 20260720102824.png]]
 

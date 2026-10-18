@@ -14,4 +14,8 @@ DRAFT
 
 
 
-https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm
+
+References:
+* [[CSS_4.pdf]]
+* [[worksheet-4-en.pdf]]
+* https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm

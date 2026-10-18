@@ -7,8 +7,7 @@ The algorithm is especially useful in situations involving:
 * Censored data
 * Mixtures of distributions
 
-DRAFT 
+[[to do]] - this section is no developed yet. Consult [[CSS_5.pdf]] for guidance in the subject.
 
-
-[[to do]] - secção a desenvolver
-
+Reference:
+* https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm

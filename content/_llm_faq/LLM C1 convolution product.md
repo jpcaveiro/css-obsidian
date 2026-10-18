@@ -216,6 +216,3 @@ In computational statistics, one often does not calculate the convolution analyt
 3. Repeat many times to obtain a sample from the convolution distribution.
 
 That simulation-based interpretation is especially useful when the individual distributions are complicated or the analytic convolution integral has no convenient closed form. [1]
-
-Original:
-* https://www.perplexity.ai/search/63fe6055-b12f-46e8-8034-ee54e71ccbaa*

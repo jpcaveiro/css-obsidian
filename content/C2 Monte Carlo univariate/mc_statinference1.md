@@ -19,7 +19,7 @@ So, there are two sample sizes:
 - $n$ is the number of observations in each simulated sample;
 - $N$ is the number of simulation replications.
 
-For example $n=20,\quad N=10\,000$ means that we generate 10,000 independent samples, each containing 20 observations. The estimator is calculated once for each sample.
+For example $n=20,\quad N=10\,000$ means that we generate 10 000 independent samples, each containing 20 observations. The estimator is calculated once for each sample.
 
 Each sample of size $n$ will provide an estimation for a parameter as explained in next sections.
 # Point Estimate

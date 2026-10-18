@@ -17,7 +17,7 @@ We have this cases:
 	* distribution of $T$ is known, sample size $n$ is small.
 	* distribution of $T$ is known, sample size $n$ is large.
 
-The Monte Carlo recipe is:
+The Monte Carlo recipe for inference is:
 1. Generate $N$ samples $X_1^{(j)},\dots,X_n^{(j)} \sim F_X$, for $j=1,\dots,N$.
 2. Compute $T_j = T(X_1^{(j)},\dots,X_n^{(j)})$.
 3. Use the empirical distribution of $T_1,\dots,T_N$ in place of the distribution of $T$:

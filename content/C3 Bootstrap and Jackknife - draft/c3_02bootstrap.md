@@ -1,3 +1,4 @@
+# Bootstrap technique
 
 Consider reading first a summary:
 * [[LLM C3 bootstrap method]]

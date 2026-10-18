@@ -1,5 +1,7 @@
 # distribution and quantile approximation
 
+In what follows, estimating quantiles of $T$ is considered (for population $X$ the notions could be applied too).
+
 Is what follows recall MC will generate $N$ sets of samples of size $n$:
 
 * $X_1^{(1)}, X_2^{(2)}, \ldots,X_n^{(1)}$ (first sample of size $n$)
@@ -7,13 +9,15 @@ Is what follows recall MC will generate $N$ sets of samples of size $n$:
 * $X_1^{(N)}, X_2^{(N)}, \ldots,X_n^{(N)}$ (last sample of size $n$).
 
 and for each sample a estimation is done with some statistics $T$:
+
 * $T^{(1)} = T(\text{sample 1})$
-* and so on
+* ... and so on ...
 * $T^{(N)} = T(\text{sample N})$
 
 ## distribution approximation
 
 Given $x$ what is the probability $P(T \le x)$?
+
 ![[Pasted image 20260717113501.png]]
 
 

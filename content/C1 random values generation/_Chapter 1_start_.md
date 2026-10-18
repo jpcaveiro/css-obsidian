@@ -19,3 +19,6 @@ Random number generation methods and cases.
 Check folder `_worksheets_`.
 
 
+Reference:
+* [[CSS_1.pdf]]
+* [[worksheet-1-en.pdf]]
