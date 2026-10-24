@@ -32,7 +32,7 @@ In what follows:
 Given $p\in[0,1]$ what is the quantile $\chi_{p,T}$ that solves $P(T \le \chi_{p,T}) =p$?
 ![[Pasted image 20260720101401.png]]
 
-
+[[Memory is Something We Do]]. Why and what mean the two notations $T_{(\cdots)}$ and $T^{(\cdots)}$?
 
 ## confidence interval for median and other quantiles
 
