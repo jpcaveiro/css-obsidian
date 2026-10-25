@@ -44,9 +44,8 @@ Notation description:
 
 ## Bias in bootstrap method
 
-Recall:
-
-![[bias of a estimator]]
+Recall [[bias]]:
+$$\text{bias}(\hat \theta) = E[\hat \theta] − \theta$$
 
 We need
 * $\hat \theta = \hat \theta(x_1, \ldots,x_n)$ is the estimation of $\theta$ **based on original sample** (not on bootstrap sample).

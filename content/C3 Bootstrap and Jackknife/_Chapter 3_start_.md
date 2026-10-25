@@ -10,6 +10,7 @@ Sections are:
 
 [[Further reading]]: 
 * [[LLM C3 names origin|about names "bootstrap" and "jack+knife"]]
+* [[LLM C3 comparison Jackknife and Bootstrap]]
 
 Reference:
 * [[CSS_3.pdf]]

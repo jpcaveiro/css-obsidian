@@ -1,13 +1,10 @@
 # Jackknife technique
 
-The jackknife method is primarily used to **reduce bias** in statistical estimates and to **estimate variance (standard error)** when standard theoretical formulas are unavailable or unreliable.
-
-In what follows, jackknife samples $\hat \theta^{(j)}$ are not directly used to estimate $\theta$ but to estimate the bias of an estimation $\hat \theta$ when we have a sample but not have a closed expression for bias.
+The jackknife method is primarily used to estimate [[bias]] in statistical estimates and to estimate variance (standard error) when standard theoretical formulas are unavailable or unreliable.
 
 Generally, bias of an estimator $\hat \theta$ is defined by: $\text{bias}(\hat \theta) = E[\hat \theta] − \theta$ with $\theta$ the unknown parameter.
 
-In jackknife setting, one has a method of estimation of bias, $\widehat{bias}(\hat \theta)$, and using $\hat \theta$ as an estimate for $E[\hat \theta]$.  From bias definition, the jackknife estimation is given by: 
-$$\hat \theta_{jack} = \hat \theta - \widehat{bias}(\hat \theta)$$
+ 
 
 ![[Pasted image 20260720153319.png]]
 
@@ -18,11 +15,14 @@ Notation description:
 * $\hat \theta_n$ is the  estimate based on original sample.
 
 
+Value $\overline{\hat \theta^{(\cdot)}}$ is the mean of the above estimations and is the jackknife estimation of $\theta$ as below:
+
+
 ![[Pasted image 20260720160859.png]]
 
 Notation description:
 * $\hat \theta^{(\cdot)}$ is a sample of jackknife estimations of size $n-1$
-* $\overline{\hat \theta^{(\cdot)}}$ is the mean of the above estimations
+* $\overline{\hat \theta^{(\cdot)}}$ is the mean of the above estimations (jackknife estimation of $\theta$)
 * $\hat \theta_n$ is the  estimate based on original sample.
 
 [[math result]]

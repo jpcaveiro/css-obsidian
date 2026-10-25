@@ -1,5 +1,4 @@
- [[to do]] Explain how to get real $\theta$ in expressions below?
-
+We assume here that true $\theta$ is known and one wants to verify properties using the Monte Carlo method.
 # bias and mean square error
 
 Recall, MC will generate $N$ sets of samples of size $n$:
@@ -14,7 +13,7 @@ Notice that in slide there is a **little redundancy** in notation between $T^{(i
 
 ![[Pasted image 20260717114025.png]]
 
-Now, **suppose $\theta$ is known in next slides** and we want to estimate [[bias of a estimator|bias]] and [[mean square error]]:
+Now, **suppose $\theta$ is known in next slides** and we want to estimate [[bias]] and [[mean square error]]:
 
 ![[Pasted image 20260717113829.png]]
 

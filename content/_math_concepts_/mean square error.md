@@ -9,4 +9,7 @@ $$
 $$
  or
  $$\widehat{\text{MSE}}(\hat \theta) = \text{Var}(\hat \theta) + \text{bias}(\hat \theta)^2$$
- 
+ Notice the mean square error **two components**:
+ * $\text{Var}(\hat \theta)$
+ * $\text{bias}(\hat \theta)$
+
