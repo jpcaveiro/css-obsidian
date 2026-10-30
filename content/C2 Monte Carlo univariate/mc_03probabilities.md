@@ -24,7 +24,7 @@ A solution to the problem is the [[mc_04importancesampling|importance sampling]]
 **(a)** Estimate $P(X \le 2)$ and $P(X \ge 2)$ and [[write R code and run it]] to illustrate the difference between the exact and estimated results.
 
 > [!example]- a solution
-> [[to do]] using LLM, for example, Write r script to generate 1000 random samples from N(0,1) and calculate probability of P(X >=4)
+> [[to do]] using LLM, for example, Write r script to generate 1000 random samples from N(0,1) and calculate probability of P(X >=2)
 
 
 **(b)** Estimate $P(X \le 4.5)$ and $P(X \ge 4.5)$ and:

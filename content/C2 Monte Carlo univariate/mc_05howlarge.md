@@ -49,8 +49,8 @@ Summarizing,
 
 Now, consider the case where a **maximum value of variance is known**: that is
 * $V(g(X))< V_{max}$. 
-Then, if 
-* $N \ge \frac{V_{max}}{\alpha \epsilon^2}$ 
+Then, choosing $N$ such that $N \ge \frac{V_{max}}{\alpha \epsilon^2}$ and having    
+* $N \ge \frac{V} {\alpha \epsilon^2} \ge \frac{V_{max}}{\alpha \epsilon^2}$ 
 then, for actual $V$, the inequality is also valid
 * $N \ge \frac{V}{\alpha \epsilon^2}$.
 

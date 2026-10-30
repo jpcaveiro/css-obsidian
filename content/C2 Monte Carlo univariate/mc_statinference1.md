@@ -31,11 +31,11 @@ Each sample of size $n$ will provide an estimation for a parameter as explained 
 
 [[Memory is Something We Do]]
 
-Exercise 1. If $T$ is the sample mean, check that  $\hat \mu$ is the same as
+Exercise 1. If $T$ is the sample mean, [[verify analytically|check]] that  $\hat \mu$ is the same as
 $$
 \frac{1}{N n} \sum_{i=1}^N \sum_{j=1}^n X_j^{(i)}
 $$
-Exercise 2. Why Monte Carlo method rely on several samples and estimates $T^{(1)}, T^{(2)}, \ldots, T^{(N)}$?
+Exercise 2. What is the benefit of using Monte Carlo simulation to generate several samples and from them several estimates $T^{(1)}, T^{(2)}, \ldots, T^{(N)}$?
 
 # Confidence interval
 

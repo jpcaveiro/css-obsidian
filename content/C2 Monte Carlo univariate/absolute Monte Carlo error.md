@@ -1,12 +1,11 @@
-The quantity
+The the **signed Monte Carlo error** is
 $$
 \frac{1}{N}\sum_{i=1}^{N}g(X_i)-E[g(X)]
 $$
-is the **signed Monte Carlo error**, and
+and the **absolute Monte Carlo error** is
 $$
 \left|\frac{1}{N}\sum_{i=1}^{N}g(X_i)-E[g(X)]\right|
 $$
-is the **absolute Monte Carlo error**.
 
 A note about **bias** ("viés" in portuguese). For independent samples,
 
