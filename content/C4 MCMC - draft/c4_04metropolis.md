@@ -43,9 +43,10 @@ Common examples of **symmetric proposal distributions** (also called candidate o
 - **Uniform Distribution centered at zero for perturbations:** In a **Random Walk Metropolis-Hastings**, the candidate is generated as $Y_t = X_t + \epsilon_t$, where the perturbation $\epsilon_t$ follows a distribution symmetric about zero. A typical choice is $\epsilon_t \sim Unif(-\delta, \delta)$, where $\delta$ is a parameter that controls the acceptance rate.
 - **Student's t-distribution:** Similar to the normal distribution, a t-distribution centered at zero can be used for the random walk perturbation $\epsilon_t$, as it is also symmetric about zero $g(-z) = g(z)$.
 
-[[Memory is Something We Do]]
-* [[Ex 4-q-01]] (talvez passar o texto abaixo para o exercício)
+Notes:
 
+* It is not "symmetrical distribution". The symmetry is q(x|y) = q(y|x), moving from y to x has the same probability has moving from x to y.
+* Is U(0,1) a symmetrical proposal distribution ?
 
 ### decision rule $\alpha$ (Metropolis algorithm)
 
@@ -84,8 +85,6 @@ As a summary, "Direction and Exploration": The ratio directs the "movement" of t
 As an example, consider image from [Metropolis–Hastings algorithm - wikipedia](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm):
 
 ![[Pasted image 20260723234758.png]]
-
-[[to do]] melhorar a imagem ao cenário deste texto
 
 [[Further reading]]
 * [[LLM C4 K and q relation]]

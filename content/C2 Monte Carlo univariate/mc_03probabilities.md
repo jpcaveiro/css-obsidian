@@ -29,7 +29,7 @@ A solution to the problem is the [[mc_04importancesampling|importance sampling]]
 
 **(b)** Estimate $P(X \le 4.5)$ and $P(X \ge 4.5)$ and:
 * [[write R code and run it]] to illustrate the difference between the exact and estimated results.
-* [[What]] is the "danger" of the estimated results?
+* [[what]] is the "danger" of the estimated results?
 * [[Empirically find]] $n$ (number of samples) to avoid 0 and 1 estimated results.
 
 > [!example]- solution with code

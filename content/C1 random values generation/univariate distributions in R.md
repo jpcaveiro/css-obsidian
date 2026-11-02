@@ -26,4 +26,4 @@ Exercise 2. [[run R code]] with other examples:
 ![[Pasted image 20260623012008.png]]
 
 
-Exercise 3. [[Explain]] what a pseudo-random number generator is and the role of the seed.
+Exercise 3. [[explain]] what a pseudo-random number generator is and the role of the seed.

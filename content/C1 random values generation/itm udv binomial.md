@@ -3,7 +3,7 @@
 Keywords:
 
 * [[univariate discrete variables]]
-* [[Bernoulli distribution]]
+* [[bernoulli distribution]]
 * [[binomial distribution]]
 
 The generation of binomial random variables is based on the definition of [[binomial distribution]]: counting successes:

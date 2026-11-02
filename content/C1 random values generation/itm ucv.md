@@ -12,7 +12,7 @@ Exercise 1. Consider the image from wikipedia and [[explain]] dots in both Y and
 - notice uniformly points in Y axis.
 ![a|500x400](https://upload.wikimedia.org/wikipedia/commons/5/5a/Inverse_transformation_method_for_exponential_distribution.jpg)
 
-Exercise 2. [[Explain]] the [animation from wikipedia](https://en.wikipedia.org/wiki/File:Inverse_Transform_Sampling_Example.gif).
+Exercise 2. [[explain]] the [animation from wikipedia](https://en.wikipedia.org/wiki/File:Inverse_Transform_Sampling_Example.gif).
 
 > [!example]- possible answer
 > [[to do]]

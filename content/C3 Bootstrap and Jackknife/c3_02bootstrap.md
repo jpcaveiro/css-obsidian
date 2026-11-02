@@ -11,9 +11,14 @@ First, read the following summary of the method:
 
 ![[Pasted image 20260720105529.png]]
 
+* Random variable $X$ follows $F$ distribution function and a sample of size $n$ produces empirical distribution designated by $F_n$
+* Random variable $X\star$ follows $F_n$ distribution function and a sample of size $n$ produces empirical distribution designated by $F\star_n$
+
 The image is showing the two main ways to think about the bootstrap in statistics. It contrasts the **true data-generating process** with the **empirical resampling process** used in practice. 
 
-A simple way to read the picture is: **real world** $\to$ observed sample $\to$ estimated distribution, then **estimated distribution** $\to$ resampled data $\to$ bootstrap version of the distribution.
+A simple way to read the picture is: 
+* **real world** $\to$ observed sample $\to$ estimated distribution, then,
+* **estimated distribution** $\to$ resampled data $\to$ bootstrap version of the distribution.
 
 What the arrows mean:
 

@@ -61,7 +61,7 @@ Exercise 2.
 > [!example]- a solution for item C
 > $$\hat \theta = (b-a) \frac{1}{2}(e^{-a}+e^{-b})$$
  
-**(d)** [[What]] is the estimator $\hat \theta$ in terms of [[numerical integration]]? Interpret both solutions.
+**(d)** [[what]] is the estimator $\hat \theta$ in terms of [[numerical integration]]? Interpret both solutions.
 
 > [!example]- a solution for item D
 > Its the trapezoidal rule where:

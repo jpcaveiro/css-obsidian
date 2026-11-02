@@ -1,6 +1,8 @@
 # Motivation
 
-## Use in Simulation
+(draft version of motivation)
+
+## Simulation
 
 ![[Pasted image 20260617142339.png]]
 
