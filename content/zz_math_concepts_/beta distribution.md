@@ -2,3 +2,4 @@
 
 * https://en.wikipedia.org/wiki/Beta_distribution
 
+![[Pasted image 20261111142346.png]]

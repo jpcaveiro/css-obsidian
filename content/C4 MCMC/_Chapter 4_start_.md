@@ -12,7 +12,7 @@ Metropolis-Hastings method
 * [[c4_04metropolis]] - Metropolis
 * [[c4_05metropolishastings]] - Metropolis-Hastings
 Gibbs method
-* [[c4_06Gibbs]] - Gibbs method
+* [[c4_06Gibbs - DRAFT]] - Gibbs method
 * [[c4_07Gibbs_twostage]] - Two stage Gibbs method
 * [[c4_08Gibbs_multistage]] - Multi stage Gibbs method
 
@@ -20,5 +20,5 @@ Gibbs method
 
 References:
 * [[CSS_4.pdf]]
-* [[worksheet-4-en.pdf]]
+* [[worksheet-3-en.pdf]] (it is "3")
 * https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm

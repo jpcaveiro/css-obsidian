@@ -25,7 +25,7 @@ Each sample of size $n$ will provide an estimation for a parameter as explained 
 # Point Estimate
 
 [[recall a concept]]:
-* [[unbiased estimator]]
+* [[bias|unbiased estimator]]
 
 ![[Pasted image 20260717104935.png]]
 

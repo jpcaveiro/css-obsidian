@@ -1,6 +1,7 @@
 
-[[definition]] stationary probability distribution $f$
-A distribution $f$ is a **stationary probability distribution** for [[mc_kernel|kernel $K$]] if:
+[[definition]] stationary probability distribution $f$:
+
+A distribution $f$ is a **stationary probability distribution** for [[mc_kernel|kernel]] $K$ if:
 
 $$X_t \sim f \implies X_{t+1} \sim f$$
 

@@ -4,9 +4,12 @@ While the original Metropolis algorithm required the proposal distribution to be
 
 ### **Why the $q()$ Ratio was Added**
 
-- **Correcting for Proposal Bias:** If a proposal distribution is asymmetric ($q(x|y) \neq q(y|x)$), the Markov chain would naturally tend to spend more time in regions where the proposal distribution "pushes" it more frequently. Including the $q$ ratio in the acceptance probability $\alpha$ acts as a correction factor that balances this bias, ensuring the chain still converges to the correct **target stationary distribution** $f$.
+- **Correcting for Proposal Bias:** If a proposal distribution is asymmetric ($q(x|y) \neq q(y|x)$), the Markov chain would naturally tend to spend more time in regions **where the proposal distribution "pushes" it more frequently**. Including the $q$ ratio in the acceptance probability $\alpha$ acts as a correction factor that balances this bias, ensuring the chain still converges to the correct **target stationary distribution** $f$.
 - **Broadening Applications:** By accounting for the asymmetry of the proposal, the algorithm can utilize a much wider range of distributions to suggest new states. This is particularly useful in complex multivariate simulations where a symmetric random walk might be inefficient.
-- **Mathematical Consistency:** The full acceptance probability is defined as: $$\alpha(x_t, Y) = \min \left( \frac{f(Y)q(x_t|Y)}{f(x_t)q(Y|x_t)}, 1 \right)$$ This formula ensures that the specific Markov kernel constructed has $f$ as its stationary distribution even when the transition rules ($q$) are not symmetric.
+- **Mathematical Consistency:** The full acceptance probability is defined as:
+
+$$\alpha(x_t, Y) = \min \left( \frac{f(Y)\,q(x_t|Y)}{f(x_t)\,q(Y|x_t)}, 1 \right)$$
+This formula ensures that the specific Markov kernel constructed has $f$ as its stationary distribution even when the transition rules ($q$) are not symmetric.
 
 ### **Key Consequences**
 

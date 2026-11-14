@@ -31,7 +31,7 @@ In the Metropolis-Hastings algorithm, the addition of the proponent (or candidat
 
 While the original Metropolis algorithm required the proposal distribution to be symmetric—meaning the probability of proposing a move from $x$ to $y$ was the same as moving from $y$ to $x$—Hastings' generalization expanded the algorithm's flexibility.
 
-### **Why the $q()$ Ratio was Added**
+### **Why the q/q Ratio was Added**
 *   **Correcting for Proposal Bias:** If a proposal distribution is asymmetric ($q(x|y) \neq q(y|x)$), the Markov chain would naturally tend to spend more time in regions where the proposal distribution "pushes" it more frequently. Including the $q$ ratio in the acceptance probability $\alpha$ acts as a correction factor that balances this bias, ensuring the chain still converges to the correct **target stationary distribution** $f$.
 *   **Broadening Applications:** By accounting for the asymmetry of the proposal, the algorithm can utilize a much wider range of distributions to suggest new states. This is particularly useful in complex multivariate simulations where a symmetric random walk might be inefficient.
 *   **Mathematical Consistency:** The full acceptance probability is defined as:
@@ -42,19 +42,7 @@ While the original Metropolis algorithm required the proposal distribution to be
 *   **Independence of $q$ in Symmetric Cases:** If the proponent distribution happens to be symmetric (like a typical Random Walk M-H), the $q$ terms cancel out, and the decision depends solely on the ratio of the target densities: $\frac{f(Y)}{f(x_t)}$.
 *   **Normalizing Constants are Unnecessary:** Like the original Metropolis algorithm, this generalized version only depends on the **ratios** of the densities, meaning the normalization constant of the target function $f$ does not need to be known.
 
-# symmetry and asymmetry
 
-No **Metropolis-Hastings**, a condição $q(x|y) = q(y|x)$ significa que a distribuição proposta é **simétrica**.
-
-Isso transforma o algoritmo no **caso especial de Metropolis**, onde a probabilidade de aceitação se simplifica para:
-
-$$
-\alpha = \min \left( 1, \frac{\pi(y)}{\pi(x)} \right)
-$$
-
-(eliminando o termo $q(y|x)/q(x|y)$).
-
----
 # alpha
 
 In the provided sources, the function **$\alpha(x, y)$** primarily refers to the **Metropolis-Hastings acceptance probability**, which is a core component of the Metropolis-Hastings (M-H) algorithm.
@@ -69,11 +57,3 @@ In the context of Markov Chain Monte Carlo (MCMC) methods, $\alpha$ is used to d
 - **Symmetric Proponents:** If the proponent distribution is **symmetric** ($q(x|y) = q(y|x)$)—as is the case in a **Random Walk Metropolis-Hastings**—the probability simplifies to: $$\alpha(x_t, y) = \min \left( \frac{f(y)}{f(x_t)}, 1 \right)$$ In this scenario, the acceptance is independent of the proponent distribution $q$.
 - **Efficiency:** Monitoring the **acceptance rate** (the percentage of candidates accepted) is a key diagnostic for the algorithm's performance. For one-dimensional cases, a "golden rule" suggests aiming for an acceptance rate of approximately **50%**.
 
----
-
-### **Other Uses of $\alpha$ in the Sources**
-
-Beyond MCMC, the sources use the symbol $\alpha$ in two other major statistical contexts:
-
-1. **Statistical Significance Level:** In the context of hypothesis testing, $\alpha$ denotes the **significance level**, which represents the maximum allowable probability of a **Type I error** ($P(\text{Reject } H_0 | H_0 \text{ is true}) \le \alpha$). For many practical tests, $\alpha$ is fixed at a standard value like 0.05.
-2. **Distributional Parameter:** $\alpha$ frequently serves as a **shape parameter** for various probability distributions mentioned in the text, including the **Beta** distribution, the **Pareto** distribution, and the **Gamma** distribution.

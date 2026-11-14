@@ -1,0 +1,1 @@
+iid stand for **independent and identically distributed** variables

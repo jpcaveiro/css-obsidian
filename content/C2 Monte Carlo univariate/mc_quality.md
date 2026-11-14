@@ -24,12 +24,19 @@ $$
 In what follows, consider a concrete sample $(x_1, \ldots, x_n)$ obtained from density $f(x)$.
 
 **Sample variance** of the **simulated values** is
+
 $$s^2_{g(X)} = \frac{1}{n} \sum_{i=1}^n (g(x_i)-\hat \theta)^2$$
+
 or **sample standard error** of the **simulated values** is
+
 $$s_{g(X)} = \sqrt{\frac{1}{n} \sum_{i=1}^n (g(x_i)-\hat \theta)^2}$$
+
 The **Monte Carlo error**, (a short name for **Monte Carlo standard error**), is given by
+
 $$\frac{s_{g(X)}}{\sqrt{n}}$$
+
 and is an estimation of the analytical variance of the estimator $\hat \theta$
+
 $$\sqrt{\text{Var}(\hat \theta)} = \sqrt{\text{Var}\left( \frac{1}{n} \sum_{i=1}^n g(X_i) \right)} = \sqrt{\frac{\text{Var}(g(X))}{n}} \text{ estimated by } \frac{s_{g(X)}}{\sqrt{n}}$$
 
 (it is expected that $s_{g(X)}$ converges to a non null constant.)
@@ -44,15 +51,21 @@ In what comes, MC will generate $N$ sets of samples of size $n$:
 resulting in a, usual large, sample of estimations of $\theta$: $(\hat \theta^{(1)}, \hat \theta^{(2)}, \ldots, \hat \theta^{(N)})$.
 
 Recall $\theta = E[g(X)]$. Now, its estimation is the mean over $N$ estimations:
-$$\hat \Theta = \frac{1}{N} \sum_{i=1}^N \hat \theta^{(i)}$$based on the sample of estimations $(\hat \theta^{(1)}, \hat \theta^{(2)}, \ldots, \hat \theta^{(N)})$. 
+
+$$\hat \Theta = \frac{1}{N} \sum_{i=1}^N \hat \theta^{(i)}$$
+
+based on the sample of estimations $(\hat \theta^{(1)}, \hat \theta^{(2)}, \ldots, \hat \theta^{(N)})$. 
 
 In what follows consider using $\theta$ or $\hat \Theta$ according to the problem at hands: verifying analytical results and using exact $\theta$ or getting insights from a simulation when $\theta$ is not known:
 
 Estimator $\hat \Theta$ is also unbiased so the quantity of interest is
 
 $$\text{Var}(\hat \Theta) = \text{Var}\left(\frac{1}{N} \sum_{i=1}^N \hat \theta^{(i)}\right)=\frac{\text{Var}(\hat \theta^{(\cdot)})}{N}$$
+
 that is **Monte Carlo standard error**
+
 $$\sqrt{\text{Var}(\hat \Theta)} = \sqrt{\frac{\text{Var}(\hat \theta^{(\cdot)})}{N}} \text{ is estimated by } \frac{\text{sd}{(\hat \theta^{(1)}, \hat \theta^{(2)}, \ldots, \hat \theta^{(N)})}}{\sqrt{N}}$$
+
 (it is expected that $\text{sd}(\hat \theta^{(1)}, \hat \theta^{(2)}, \ldots, \hat \theta^{(N)})$ converges to a non null constant.)
 
 
@@ -89,7 +102,5 @@ $$E\left[ (\hat\theta^{(i)}-E[\hat \Theta])^2 \right] \quad \quad \text{and} \qu
 > The first follows definition of [[mean square error]] of $\hat \Theta$ estimator.
 > The second is the sample variance of $\hat \theta$ estimator.
 > This quantities are close because $E[\hat \Theta]=\theta$ ($\hat \Theta$ is unbiased).
-
-
 
 

@@ -56,7 +56,7 @@ We need
 * $\hat \theta = \hat \theta(x_1, \ldots,x_n)$ is the estimation of $\theta$ **based on original sample** (not on bootstrap sample).
 * $\overline{\hat \theta^{\star}}$ is the average of the B estimations $\hat \theta^{(b)}$
 
-The value of $\theta$ is not known in bootstrap setting so one replaces $\theta$ by $\hat \theta$  and $E[\hat \theta]$ by $\overline{\hat \theta^{(b)}}$: 
+The value of $\theta$ **is not known in bootstrap** setting so one replaces $\theta$ by $\hat \theta$  and $E[\hat \theta]$ by $\overline{\hat \theta^{(b)}}$: 
 
 ![[Pasted image 20260720150801.png]]
 

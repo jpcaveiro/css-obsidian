@@ -86,13 +86,13 @@ $$
 $$
 Assuming the model with parameters $a=0.3$ and $\sigma^{2}=1$, a sample of $n=100$ observations, and using the **replication** method (use $N=1000$ replications).
 
-**(a)** [[explain]] all steps of how to get an estimator for $a$ using **replication** method.
+**(a)** [[explain]] all steps of how to get an estimator for $a$ using **replication** of Monte Carlo simulation method.
 
-**(b)** [[Implement]] the procedure and obtain an estimate of the parameter $a$;
+**(b)** [[Implement]] the procedure and obtain an estimate of the parameter $a$.
 
-**(c)** [[Write an expression]] for the Monte Carlo error (see [[mc_quality]]) and [[Implement]] it.
+**(c)** [[Write an expression]] for the "Monte Carlo error" (see [[mc_quality|Quality of MC simulations]]) and [[Implement]] it.
 
-**(d)** [[How to]] determine a confidence interval for $a$ at 95%? 
+**(d)** [[How to]] determine a confidence interval for $a$ at 95%? (eventually biased interval)
 
 **(e)** [[Implement]] previous answer and calculate the confidence interval.
 
